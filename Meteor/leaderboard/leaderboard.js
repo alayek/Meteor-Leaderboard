@@ -1,7 +1,6 @@
 // do not use var
 // use var only if it should not be in global scope
 PlayerList = new Mongo.Collection("Players");
-
 /*
 PlayerList.insert({
     name : "David",
@@ -37,7 +36,9 @@ if (Meteor.isClient) {
   // helpers for templates
   Template.leaderboard.helpers({
     'player': function(){
-       return PlayerList.find({}, {sort: {score: -1}}); 
+      // get user specific leaderboard
+      var currentUser = Meteor.userId();
+       return PlayerList.find({createdBy: currentUser}, {sort: {score: -1}}); 
     },
     
     'selectedClass' : function(){
@@ -60,7 +61,6 @@ if (Meteor.isClient) {
         var playerId = this._id;
         Session.set('selectedPlayer', playerId);
         var selectedPlayer = Session.get('selectedPlayer');
-        console.log(selectedPlayer);
     },
     
     'click .increment' : function(){
@@ -83,9 +83,12 @@ if (Meteor.isClient) {
     'submit form' : function(event) {
       event.preventDefault();
       var playerName = event.target.playerName.value;
+      // make this user specific
+      var currentUser = Meteor.userId();
       PlayerList.insert({
         name: playerName,
-        score: 0
+        score: 0,
+        createdBy: currentUser
       });
     }
   });

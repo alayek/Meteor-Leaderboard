@@ -1,40 +1,34 @@
 <head>
-  <title>leaderboard</title>
+    <title>Leaderboard</title>
 </head>
-
 <body>
-  <h1>Welcome to Leaderboard!</h1>
-  <h2>Here</h2>
-  {{> leaderboard}}
-    
+    <h1>Leaderboard</h1>
+    {{> loginButtons}}
+    {{> leaderboard}}
+    {{> addPlayerForm}}
 </body>
 
 <template name="leaderboard">
-  <ul>
-    <p>
-      {{#if showSelectedPlayer}}
-      Selected player is {{showSelectedPlayer.name}}, and their score is {{showSelectedPlayer.score}}
-      {{/if}}
-    </p>
-    {{#each player}}
-    <li class="player {{selectedClass}}">{{name}} : {{score}}</li>
-    {{/each}}
-    <p>
-      <input type="button" class="increment" value="Give 5 Points">
-      <input type="button" class="decrement" value="Take 5 Points">
-      <input type="button" class="remove" value="Remove Player">
-    </p>
-  </ul>
-  
-  <p>
-    {{> addPlayerForm}}
-  </p>
+	<ul>
+	    {{#each player}}
+	        <li class="player {{selectedClass}}">{{name}}: {{score}}</li>
+	    {{/each}}
+	    	<li>
+	    		<input type="button" class="increment" value="Give 5 Points">
+	    		<input type="button" class="decrement" value="Take 5 Points">
+	    		<input type="button" class="remove" value="Remove Player">
+    		</li>
+    		{{#if showSelectedPlayer}}
+			    <li>Selected Player: {{showSelectedPlayer.name}}</li>
+			{{/if}}
+	</ul>
 </template>
 
 <template name="addPlayerForm">
-  <form>
-    <input type="text" name="playerName">
-    <input type="submit" value="Add Player">
-  </form>
-    
+    {{#if currentUser}}
+        <form>
+            <input type="text" name="playerName">
+            <input type="submit" value="Add Player">
+        </form>
+    {{/if}}
 </template>
