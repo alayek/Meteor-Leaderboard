@@ -11,7 +11,9 @@
 
 <template name="leaderboard">
   <ul>
-    
+    <p>
+      Selected player is {{showSelectedPlayer.name}}, and their score is {{showSelectedPlayer.score}}
+    </p>
     {{#each player}}
     <li class="player {{selectedClass}}">{{name}} : {{score}}</li>
     {{/each}}
