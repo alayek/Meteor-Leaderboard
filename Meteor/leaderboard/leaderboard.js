@@ -37,7 +37,7 @@ if (Meteor.isClient) {
   // helpers for templates
   Template.leaderboard.helpers({
     'player': function(){
-       return PlayerList.find(); 
+       return PlayerList.find({}, {sort: {score: -1, name: 1}}); 
     },
     
     'selectedClass' : function(){
@@ -55,7 +55,16 @@ if (Meteor.isClient) {
         var playerId = this._id;
         Session.set('selectedPlayer', playerId);
         var selectedPlayer = Session.get('selectedPlayer');
-        console.log(selectedPlayer);
+    },
+    
+    'click .increment' : function(){
+      var selectedPlayer = Session.get('selectedPlayer');
+      PlayerList.update(selectedPlayer, {$inc: {score: 5}});
+    },
+    
+    'click .decrement' : function() {
+      var selectedPlayer = Session.get('selectedPlayer');
+      PlayerList.update(selectedPlayer, {$inc: {score: -5}});
     }
   });
 }
